@@ -173,7 +173,7 @@ GitHub:
 https://github.com/sanjibani-129
 
 LinkedIn:
-(Add your LinkedIn URL)
+https://www.linkedin.com/in/sanjibani-saha-a6641b36a
 
 ---
 
