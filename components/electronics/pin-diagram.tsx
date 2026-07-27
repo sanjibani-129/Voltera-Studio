@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
+import { CircuitBoard } from "lucide-react"
+import { cn, hasRealImage } from "@/lib/utils"
 import type { ComponentPin } from "@/lib/types/database.types"
+import { CategoryIllustration } from "@/components/electronics/category-illustration"
 
 const PIN_COLORS: Record<ComponentPin["pin_type"], string> = {
   power: "bg-red-400",
@@ -16,16 +18,25 @@ const PIN_COLORS: Record<ComponentPin["pin_type"], string> = {
 export function PinDiagram({
   imageUrl,
   pins,
+  category,
 }: {
   imageUrl: string | null
   pins: ComponentPin[]
+  category: string
 }) {
   const [activePin, setActivePin] = useState<ComponentPin | null>(pins[0] ?? null)
 
   if (pins.length === 0) {
     return (
-      <div className="glass rounded-3xl p-8 text-center text-sm text-muted-foreground">
-        No pin diagram is available for this component yet.
+      <div className="glass flex aspect-square flex-col items-center justify-center rounded-3xl p-10 text-center md:aspect-auto md:h-[420px]">
+        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-secondary/60">
+          <CircuitBoard className="h-7 w-7 text-primary" />
+        </div>
+        <h3 className="text-lg font-semibold tracking-tight">Pin diagram coming soon.</h3>
+        <p className="mt-2 max-w-sm text-pretty text-sm text-muted-foreground">
+          We haven&apos;t mapped out the pinout for this component yet. Check back soon, or explore the Specs and
+          Overview tabs in the meantime.
+        </p>
       </div>
     )
   }
@@ -33,12 +44,17 @@ export function PinDiagram({
   return (
     <div className="grid gap-4 md:grid-cols-[1.2fr_1fr]">
       <div className="glass relative aspect-square overflow-hidden rounded-3xl p-6">
-        <Image
-          src={imageUrl || "/placeholder.svg"}
-          alt="Pin diagram"
-          fill
-          className="object-contain p-10 opacity-90"
-        />
+        {hasRealImage(imageUrl) ? (
+          <Image
+            src={imageUrl as string}
+            alt="Pin diagram"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-contain p-10 opacity-90"
+          />
+        ) : (
+          <CategoryIllustration category={category} className="absolute inset-0 h-full w-full p-14 opacity-70" />
+        )}
         {pins.map((pin) => (
           <button
             key={pin.id}

@@ -1,70 +1,96 @@
-import Anthropic from "@anthropic-ai/sdk"
-import { createClient } from "@/lib/supabase/server"
-
 export const runtime = "nodejs"
 
-const SYSTEM_PROMPT = `You are Voltra's AI electronics tutor. You explain circuits, components, and
-embedded systems concepts clearly and patiently, adapting to the learner's level. Keep answers
-focused and practical - use short paragraphs, and concrete examples (numbers, real component
-names) over abstract theory where possible. If asked about a specific component, ground your
-answer in that component's real electrical characteristics.`
+const SYSTEM_PROMPT = `
+You are Voltera AI Tutor.
+
+You are an expert Electronics and Embedded Systems tutor.
+
+Rules:
+- Keep answers under 120 words unless the user asks for more detail.
+- Use simple English.
+- Explain step by step.
+- Use bullet points whenever possible.
+- Give practical examples.
+- If the question is about an electronic component, explain:
+  • What it is
+  • How it works
+  • Pin configuration (if applicable)
+  • Applications
+  • Advantages
+- Never generate unnecessarily long answers.
+`
 
 export async function POST(request: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return Response.json(
-      { error: "AI tutor is not configured yet. Add ANTHROPIC_API_KEY to your environment." },
-      { status: 503 },
-    )
-  }
-
-  const { messages, contextName } = (await request.json()) as {
-    messages: { role: "user" | "assistant"; content: string }[]
-    contextName?: string
-  }
-
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return Response.json({ error: "No messages provided." }, { status: 400 })
-  }
-
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
-  const system = contextName
-    ? `${SYSTEM_PROMPT}\n\nThe learner is currently viewing the component page for: ${contextName}.`
-    : SYSTEM_PROMPT
-
   try {
-    const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1024,
-      system,
-      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+    const { component, question } = await request.json()
+
+    const prompt = component
+      ? `${SYSTEM_PROMPT}
+
+Current Component:
+${component}
+
+User Question:
+${question}`
+      : `${SYSTEM_PROMPT}
+
+User Question:
+${question}`
+
+    const response = await fetch("http://127.0.0.1:11434/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "qwen2.5:3b",
+        stream: false,
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are Voltera AI Tutor. Reply in less than 120 words. Be concise, practical and beginner-friendly.",
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        options: {
+          temperature: 0.2,
+          top_p: 0.9,
+          num_predict: 120,
+        },
+      }),
     })
 
-    const text = response.content
-      .map((block) => (block.type === "text" ? block.text : ""))
-      .filter(Boolean)
-      .join("\n")
+    if (!response.ok) {
+      const errorText = await response.text()
 
-    // Best-effort persistence of the exchange - never blocks the response.
-    persistExchange(messages[messages.length - 1]?.content, text).catch(() => {})
+      return Response.json(
+        {
+          error: errorText,
+        },
+        { status: response.status }
+      )
+    }
 
-    return Response.json({ reply: text })
+    const data = await response.json()
+
+    return Response.json({
+      text: data.message?.content ?? "No response generated.",
+    })
   } catch (err) {
-    console.error("[ai-tutor]", err)
-    return Response.json({ error: "The AI tutor couldn't respond. Please try again." }, { status: 500 })
+    console.error("[AI Tutor]", err)
+
+    return Response.json(
+      {
+        error:
+          err instanceof Error
+            ? err.message
+            : "Unable to contact Ollama.",
+      },
+      { status: 500 }
+    )
   }
-}
-
-async function persistExchange(userMessage: string | undefined, assistantMessage: string) {
-  if (!userMessage) return
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return
-
-  await supabase.from("tutor_messages").insert([
-    { user_id: user.id, role: "user", content: userMessage },
-    { user_id: user.id, role: "assistant", content: assistantMessage },
-  ])
 }

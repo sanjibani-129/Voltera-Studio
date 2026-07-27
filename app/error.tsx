@@ -23,6 +23,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
             Try again
           </Button>
           <Button
+            nativeButton={false}
             render={<Link href="/" />}
             className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
           >

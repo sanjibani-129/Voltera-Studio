@@ -25,10 +25,16 @@ export interface Database {
           slug: string
           name: string
           category: string
+          manufacturer: string | null
           short_description: string
           long_description: string | null
+          working_principle: string | null
+          applications: string | null
+          advantages: string | null
+          disadvantages: string | null
           image_url: string | null
           model_url: string | null
+          datasheet_url: string | null
           specs: Record<string, string>
           tags: string[]
           difficulty: "beginner" | "intermediate" | "advanced"
@@ -61,6 +67,20 @@ export interface Database {
           y: number
         }
         Update: Partial<Database["public"]["Tables"]["component_pins"]["Row"]>
+      }
+      component_relations: {
+        Row: {
+          id: string
+          component_id: string
+          related_component_id: string
+          note: string | null
+          created_at: string
+        }
+        Insert: Partial<Database["public"]["Tables"]["component_relations"]["Row"]> & {
+          component_id: string
+          related_component_id: string
+        }
+        Update: Partial<Database["public"]["Tables"]["component_relations"]["Row"]>
       }
       quiz_topics: {
         Row: {
@@ -139,6 +159,7 @@ export interface Database {
 
 export type Component = Database["public"]["Tables"]["components"]["Row"]
 export type ComponentPin = Database["public"]["Tables"]["component_pins"]["Row"]
+export type ComponentRelation = Database["public"]["Tables"]["component_relations"]["Row"]
 export type QuizTopic = Database["public"]["Tables"]["quiz_topics"]["Row"]
 export type QuizQuestion = Database["public"]["Tables"]["quiz_questions"]["Row"]
 export type QuizAttempt = Database["public"]["Tables"]["quiz_attempts"]["Row"]

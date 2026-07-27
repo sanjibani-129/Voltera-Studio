@@ -35,7 +35,7 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
       >
         <Link href="/" className="flex items-center gap-2 pl-1">
           <CircuitBoard className="h-5 w-5 text-primary" />
-          <span className="text-base font-semibold tracking-tight">Voltra</span>
+          <span className="text-base font-semibold tracking-tight">Voltera</span>
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -55,6 +55,7 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
             <>
               <Button
                 variant="ghost"
+                nativeButton={false}
                 render={<Link href="/dashboard" />}
                 className="rounded-full text-sm text-muted-foreground hover:text-foreground"
               >
@@ -73,12 +74,14 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
             <>
               <Button
                 variant="ghost"
+                nativeButton={false}
                 render={<Link href="/login" />}
                 className="rounded-full text-sm text-muted-foreground hover:text-foreground"
               >
                 Sign in
               </Button>
               <Button
+                nativeButton={false}
                 render={<Link href="/signup" />}
                 className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
               >
@@ -92,13 +95,15 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
           className="flex h-9 w-9 items-center justify-center rounded-full text-foreground md:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
+          aria-expanded={open}
+          aria-controls="mobile-nav-menu"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </nav>
 
       {open && (
-        <div className="glass absolute inset-x-4 top-20 rounded-3xl p-4 md:hidden">
+        <div id="mobile-nav-menu" className="glass absolute inset-x-4 top-20 rounded-3xl p-4 md:hidden">
           <div className="flex flex-col gap-1">
             {links.map((l) => (
               <Link
@@ -115,6 +120,7 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
                 <>
                   <Button
                     variant="secondary"
+                    nativeButton={false}
                     render={<Link href="/dashboard" onClick={() => setOpen(false)} />}
                     className="w-full rounded-xl"
                   >
@@ -130,12 +136,14 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
                 <>
                   <Button
                     variant="secondary"
+                    nativeButton={false}
                     render={<Link href="/login" onClick={() => setOpen(false)} />}
                     className="w-full rounded-xl"
                   >
                     Sign in
                   </Button>
                   <Button
+                    nativeButton={false}
                     render={<Link href="/signup" onClick={() => setOpen(false)} />}
                     className="w-full rounded-xl bg-primary text-primary-foreground"
                   >

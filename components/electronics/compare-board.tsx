@@ -3,8 +3,9 @@
 import { useMemo, useState } from "react"
 import Image from "next/image"
 import { X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, hasRealImage } from "@/lib/utils"
 import type { Component } from "@/lib/types/database.types"
+import { CategoryIllustration } from "@/components/electronics/category-illustration"
 
 const MAX_COMPARE = 3
 
@@ -71,7 +72,11 @@ export function CompareBoard({ components }: { components: Component[] }) {
                   <th key={c.id} className="min-w-[180px] px-6 py-4 text-left">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <Image src={c.image_url || "/placeholder.svg"} alt={c.name} width={28} height={28} />
+                        {hasRealImage(c.image_url) ? (
+                          <Image src={c.image_url as string} alt={c.name} width={28} height={28} />
+                        ) : (
+                          <CategoryIllustration category={c.category} className="h-7 w-7" />
+                        )}
                         <span className="font-semibold tracking-tight">{c.name}</span>
                       </div>
                       <button

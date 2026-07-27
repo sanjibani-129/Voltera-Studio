@@ -4,7 +4,7 @@ import { CompareBoard } from "@/components/electronics/compare-board"
 import { searchComponents } from "@/lib/actions/components"
 import { getCurrentUser } from "@/lib/actions/auth"
 
-export const metadata: Metadata = { title: "Compare Components — Voltra" }
+export const metadata: Metadata = { title: "Compare Components — Voltera" }
 
 export default async function ComparePage() {
   const [user, components] = await Promise.all([getCurrentUser(), searchComponents({})])

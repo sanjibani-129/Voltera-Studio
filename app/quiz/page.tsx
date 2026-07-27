@@ -5,7 +5,7 @@ import { SiteNav } from "@/components/site-nav"
 import { getQuizTopics } from "@/lib/actions/quiz"
 import { getCurrentUser } from "@/lib/actions/auth"
 
-export const metadata: Metadata = { title: "Quizzes — Voltra" }
+export const metadata: Metadata = { title: "Quizzes — Voltera" }
 
 export default async function QuizIndexPage() {
   const [user, topics] = await Promise.all([getCurrentUser(), getQuizTopics()])

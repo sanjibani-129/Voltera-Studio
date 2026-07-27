@@ -52,3 +52,35 @@ export async function getCategories(): Promise<string[]> {
   const { data } = await supabase.from("components").select("category")
   return Array.from(new Set((data ?? []).map((row) => row.category))).sort()
 }
+
+export async function getRelatedComponents(category: string, excludeId: string, limit = 4): Promise<Component[]> {
+  const supabase = await createClient()
+
+  // Prefer the curated, hand-picked relations graph (component_relations) -
+  // it captures meaningful pairings (e.g. a driver IC with the motor it
+  // drives) rather than just "same category". Falls back to a same-category
+  // match if no curated relations exist yet for this component, or if the
+  // table itself isn't present (e.g. 03_related_components.sql not yet run).
+  const { data: curated, error: curatedError } = await supabase
+    .from("component_relations")
+    .select("note, related:related_component_id(*)")
+    .eq("component_id", excludeId)
+    .limit(limit)
+
+  if (!curatedError && curated && curated.length > 0) {
+    return curated.map((row: any) => row.related).filter(Boolean) as Component[]
+  }
+
+  const { data, error } = await supabase
+    .from("components")
+    .select("*")
+    .eq("category", category)
+    .neq("id", excludeId)
+    .limit(limit)
+
+  if (error) {
+    console.error("[getRelatedComponents]", error.message)
+    return []
+  }
+  return data ?? []
+}

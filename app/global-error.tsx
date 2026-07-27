@@ -25,6 +25,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
                 Try again
               </Button>
               <Button
+                nativeButton={false}
                 render={<Link href="/" />}
                 className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
               >

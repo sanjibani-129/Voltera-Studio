@@ -21,10 +21,16 @@ export default function NotFound() {
           We couldn&apos;t find that page or component. It may have been renamed or removed.
         </p>
         <div className="mt-8 flex justify-center gap-3">
-          <Button variant="secondary" render={<Link href="/components" />} className="rounded-full">
+          <Button
+            variant="secondary"
+            nativeButton={false}
+            render={<Link href="/components" />}
+            className="rounded-full"
+          >
             Browse components
           </Button>
           <Button
+            nativeButton={false}
             render={<Link href="/" />}
             className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
           >

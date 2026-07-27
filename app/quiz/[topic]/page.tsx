@@ -12,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { topic } = await params
   const result = await getQuizByTopicSlug(topic)
-  return { title: result ? `${result.topic.title} Quiz — Voltra` : "Quiz not found — Voltra" }
+  return { title: result ? `${result.topic.title} Quiz — Voltera` : "Quiz not found — Voltera" }
 }
 
 export default async function QuizPage({ params }: { params: Promise<{ topic: string }> }) {

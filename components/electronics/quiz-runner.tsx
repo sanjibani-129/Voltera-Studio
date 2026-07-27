@@ -84,6 +84,7 @@ export function QuizRunner({
             <RotateCcw className="h-4 w-4" /> Retake quiz
           </Button>
           <Button
+            nativeButton={false}
             render={<Link href="/quiz" />}
             className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
           >
