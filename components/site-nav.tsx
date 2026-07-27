@@ -35,7 +35,7 @@ export function SiteNav({ isAuthenticated = false }: { isAuthenticated?: boolean
       >
         <Link href="/" className="flex items-center gap-2 pl-1">
           <CircuitBoard className="h-5 w-5 text-primary" />
-          <span className="text-base font-semibold tracking-tight">Voltera</span>
+          <span className="text-base font-semibold tracking-tight">Voltra</span>
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">

@@ -86,66 +86,75 @@ export function AiTutorChat({
       const controller = new AbortController()
       abortRef.current = controller
 
-     try {
- const response = await fetch("/api/ai-tutor", {
-  signal: controller.signal,
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    component: component.name,
-    question: trimmed,
-  }),
-})
+      try {
+        const res = await fetch("/api/ai-tutor", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ component: component.name, question: trimmed }),
+          signal: controller.signal,
+        })
 
-console.log("Fetch completed")
-
-const data = await response.json()
-
-console.log("Received data:", data)
-
-if (!response.ok) {
-  throw new Error(data.error || "AI Tutor failed")
-}
-
-const answer = data.text || "No response generated."
-
-console.log("Answer:", answer)
-
-setMessages((prev) =>
-  prev.map((m) =>
-    m.id === assistantId
-      ? {
-          ...m,
-          content: answer,
-          streaming: false,
+        // IMPORTANT: check res.ok on its own. res.body being falsy is NOT
+        // an error condition by itself - some browsers/runtimes (older
+        // Safari/WebKit, some in-app webviews, certain proxies) return a
+        // perfectly valid 200 response but don't expose a readable stream
+        // via res.body. Bundling "!res.body" into the same failure branch
+        // as "!res.ok" was the actual bug here: it discarded a real,
+        // successful 200 response and always fell through to this hardcoded
+        // message, even though the model's answer had already arrived.
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}) as { error?: string })
+          throw new Error(data.error || `The AI tutor couldn't respond (HTTP ${res.status}). Please try again.`)
         }
-      : m
+
+        let accumulated = ""
+
+        if (res.body && typeof res.body.getReader === "function") {
+          // Preferred path: read the stream incrementally so the UI updates
+          // token-by-token as Gemini generates the response.
+          const reader = res.body.getReader()
+          const decoder = new TextDecoder()
+
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            accumulated += decoder.decode(value, { stream: true })
+            setMessages((prev) =>
+              prev.map((m) => (m.id === assistantId ? { ...m, content: accumulated, streaming: true } : m)),
+            )
+          }
+        } else {
+          // Fallback path: this environment's fetch doesn't support a
+          // readable stream body. The response is still a valid, complete
+          // 200 - read it all at once with res.text() rather than treating
+          // its absence of a stream as a failure.
+          console.warn("[ai-tutor] res.body has no readable stream in this environment - falling back to res.text()")
+          accumulated = await res.text()
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: accumulated, streaming: true } : m)),
+          )
+        }
+
+        setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, streaming: false } : m)))
+
+        if (!accumulated.trim()) {
+          throw new Error("The AI tutor returned an empty response. Please try again.")
+        }
+      } catch (err) {
+        if ((err as Error).name === "AbortError") return
+        const messageText = err instanceof Error ? err.message : "Network error - please try again."
+        setError(messageText)
+        // Remove the empty streaming bubble left behind by the failed attempt.
+        setMessages((prev) => prev.filter((m) => m.id !== assistantId))
+      } finally {
+        setPending(false)
+        abortRef.current = null
+      }
+    },
+    [component.name, pending],
   )
-)
 
-} catch (err) {
-  if ((err as Error).name === "AbortError") return
-
-  const messageText =
-    err instanceof Error
-      ? err.message
-      : "Network error - please try again."
-
-  setError(messageText)
-
-  setMessages((prev) =>
-    prev.filter((m) => m.id !== assistantId)
-  )
-} finally {
-  setPending(false)
-  abortRef.current = null
-}
-},
-   [component.name, pending],
-   )
-    if (!isConfigured) {
+  if (!isConfigured) {
     return (
       <div className="glass flex h-[520px] flex-col items-center justify-center rounded-3xl p-8 text-center">
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-secondary/60">

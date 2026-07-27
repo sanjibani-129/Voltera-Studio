@@ -6,7 +6,7 @@ import { searchComponents, getCategories } from "@/lib/actions/components"
 import { getFavoriteIds } from "@/lib/actions/favorites"
 import { getCurrentUser } from "@/lib/actions/auth"
 
-export const metadata: Metadata = { title: "Component Library — Voltera" }
+export const metadata: Metadata = { title: "Component Library — Voltra" }
 
 export default async function ComponentsPage({
   searchParams,

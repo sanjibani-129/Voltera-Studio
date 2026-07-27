@@ -9,7 +9,7 @@ import { getUserQuizAttempts } from "@/lib/actions/quiz"
 import { createClient } from "@/lib/supabase/server"
 import type { Component } from "@/lib/types/database.types"
 
-export const metadata: Metadata = { title: "Dashboard — Voltera" }
+export const metadata: Metadata = { title: "Dashboard — Voltra" }
 
 export default async function DashboardPage() {
   const user = await getCurrentUser()

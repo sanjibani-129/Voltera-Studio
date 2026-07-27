@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Voltera — Learn Electronics with AI',
+  title: 'Voltra — Learn Electronics with AI',
   description:
     'The AI-native platform that teaches you electronics, circuits, and embedded systems through interactive, adaptive lessons.',
   generator: 'v0.app',

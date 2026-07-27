@@ -37,7 +37,7 @@ const items: FloatingItem[] = [
     delay: "2.2s",
   },
   {
-    src: "/comp-relay.png",
+    src: "/comp-relay.png?v=2",
     className: "right-[16%] top-[46%] hidden w-36 opacity-40 lg:block md:w-48",
     animation: "animate-float",
     width: 380,

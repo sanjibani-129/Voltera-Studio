@@ -1,5 +1,5 @@
 -- ============================================================================
--- Voltera Electronics Encyclopedia -- 02_component_pins.sql
+-- Voltra Electronics Encyclopedia -- 02_component_pins.sql
 -- Realistic pin mappings for ICs, modules, and microcontroller / dev boards.
 -- x/y are approximate percentage overlay positions (0-100) split evenly down
 -- the left and right edges of the component's pin-diagram image; re-tune in

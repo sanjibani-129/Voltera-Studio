@@ -1,5 +1,5 @@
 -- ============================================================================
--- Voltera platform schema
+-- Voltra platform schema
 -- Run this in Supabase SQL Editor, or via `supabase db push` if using the CLI.
 -- ============================================================================
 

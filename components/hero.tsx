@@ -63,7 +63,7 @@ export function Hero() {
           className="animate-fade-up mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground"
           style={{ animationDelay: "160ms" }}
         >
-          Voltera turns dense theory into interactive, adaptive lessons — from Ohm&apos;s law to embedded
+          Voltra turns dense theory into interactive, adaptive lessons — from Ohm&apos;s law to embedded
           firmware. Ask anything, build anything.
         </p>
 
@@ -77,7 +77,7 @@ export function Hero() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask Voltera to explain any concept..."
+            placeholder="Ask Voltra to explain any concept..."
             className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
             aria-label="Search concepts"
           />

@@ -1,4 +1,4 @@
-# Voltera — AI Electronics Learning Platform
+# Voltra — AI Electronics Learning Platform
 
 This project started as a v0-generated marketing landing page and has been extended into a full
 application: Supabase auth + database, a searchable component library, dynamic component pages with

@@ -32,7 +32,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       <div className="glass relative z-10 w-full max-w-md rounded-3xl p-8">
         <Link href="/" className="mb-8 flex items-center justify-center gap-2">
           <CircuitBoard className="h-5 w-5 text-primary" />
-          <span className="text-base font-semibold tracking-tight">Voltera</span>
+          <span className="text-base font-semibold tracking-tight">Voltra</span>
         </Link>
 
         <h1 className="text-balance text-center text-2xl font-semibold tracking-tight">

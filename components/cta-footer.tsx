@@ -39,7 +39,7 @@ export function CtaFooter() {
         <div className="col-span-2 md:col-span-1">
           <a href="#" className="flex items-center gap-2">
             <CircuitBoard className="h-5 w-5 text-primary" />
-            <span className="text-base font-semibold tracking-tight">Voltera</span>
+            <span className="text-base font-semibold tracking-tight">Voltra</span>
           </a>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             The AI-native way to learn electronics, from first principles to production.
@@ -62,7 +62,7 @@ export function CtaFooter() {
       </div>
 
       <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-muted-foreground sm:flex-row">
-        <p>© {new Date().getFullYear()} Voltera Labs, Inc. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Voltra Labs, Inc. All rights reserved.</p>
         <div className="flex gap-6">
           <a href="#" className="transition-colors hover:text-foreground">Privacy</a>
           <a href="#" className="transition-colors hover:text-foreground">Terms</a>

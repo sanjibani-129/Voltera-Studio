@@ -1,5 +1,5 @@
 -- ============================================================================
--- Voltera Electronics Encyclopedia -- 04_update_model_urls.sql
+-- Voltra Electronics Encyclopedia -- 04_update_model_urls.sql
 -- Populates model_url for every catalog component with a REAL, verified,
 -- publicly and anonymously fetchable .glb/.gltf file URL where one exists.
 --

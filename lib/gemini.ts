@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai"
  * Model used by every call through this client. Centralized here so the
  * whole app upgrades by changing one string.
  */
-export const GEMINI_MODEL = "gemini-2.0-flash"
+export const GEMINI_MODEL = "gemini-2.5-flash"
 
 let client: GoogleGenAI | null = null
 

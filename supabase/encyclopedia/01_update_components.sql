@@ -1,5 +1,5 @@
 -- ============================================================================
--- Voltera Electronics Encyclopedia -- 01_update_components.sql
+-- Voltra Electronics Encyclopedia -- 01_update_components.sql
 -- Schema upgrade + full replacement of the components catalog with the
 -- curated set of 100 real electronics components.
 -- Safe to run directly in the Supabase SQL Editor.

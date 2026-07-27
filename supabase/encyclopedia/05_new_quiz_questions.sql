@@ -1,5 +1,5 @@
 -- ============================================================================
--- Voltera Electronics Encyclopedia -- 05_new_quiz_questions.sql
+-- Voltra Electronics Encyclopedia -- 05_new_quiz_questions.sql
 --
 -- SCHEMA ANALYSIS (performed before writing any SQL below):
 --   public.quiz_topics    (id, slug unique, title, description,

@@ -17,7 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const result = await getComponentBySlug(slug)
-  return { title: result ? `${result.component.name} — Voltera` : "Component not found — Voltera" }
+  return { title: result ? `${result.component.name} — Voltra` : "Component not found — Voltra" }
 }
 
 export default async function ComponentDetailPage({ params }: { params: Promise<{ slug: string }> }) {

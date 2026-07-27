@@ -1,5 +1,5 @@
 -- ============================================================================
--- Voltera Electronics Encyclopedia -- 03_related_components.sql
+-- Voltra Electronics Encyclopedia -- 03_related_components.sql
 -- Curated "related components" graph, used to power a smarter related-items
 -- section than the existing same-category fallback in getRelatedComponents().
 -- Run AFTER 01_update_components.sql.
