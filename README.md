@@ -37,34 +37,6 @@ The platform offers a searchable electronics component library, detailed specifi
 
 ---
 
-# 🖼 Screenshots
-
-## 🏠 Home Page
-
-![Home](screenshots/home.png)
-
----
-
-## 🔍 Component Explorer
-
-![Explorer](screenshots/explorer.png)
-
----
-
-## ⚙ Component Details
-
-![Details](screenshots/component.png)
-
----
-
-## 🤖 AI Tutor
-
-> Local version powered by Ollama.
-
-![AI Tutor](screenshots/ai-tutor.png)
-
----
-
 # 🛠 Tech Stack
 
 ### Frontend
